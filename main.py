@@ -1,8 +1,8 @@
 import discord
 import os
-import subprocess
 
 client = discord.Client()
+sudoPassword = 'Your Pass'
 
 class MyClient(discord.Client):
     async def on_ready(self):
@@ -13,7 +13,8 @@ class MyClient(discord.Client):
         if message.author == self.user:
             return
         if message.content == '{0.content}'.format(message):
-            output = subprocess.getoutput('{0.content}'.format(message))
+            command = '{0.content}'.format(message)
+            output = os.system('echo %s|sudo -S %s' % (sudoPassword, command))
             await message.channel.send(output)
 
 client = MyClient()
